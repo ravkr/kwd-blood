@@ -7,9 +7,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import cross_validate
+from sklearn.tree import DecisionTreeClassifier
 
 # Wczytywanie danych
 input_data = pd.read_csv('data/transfusion.data')
+# input_data = pd.read_csv('data/transfusion2.data')
 
 # Analiza danych
 sns.pairplot(input_data)
@@ -67,6 +69,81 @@ accuracy = cv_results['test_score'].mean()
 print("Model accuracy via cross-validation is {0:0.2f}".format(accuracy))
 
 
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+for depth in range(1, 10):
+    decision_tree = DecisionTreeClassifier(criterion='entropy', max_depth=depth, random_state=0)
+    decision_tree.fit(train_data, train_target)
+
+    print(f"depth = {depth}")
+
+    print(accuracy_score(test_target, decision_tree.predict(test_data)))
+    print(confusion_matrix(test_target, decision_tree.predict(test_data)))
+
+    from sklearn.ensemble import RandomForestClassifier
+    random_forest = RandomForestClassifier(max_depth=depth, criterion='entropy', random_state=0)
+    random_forest.fit(train_data, train_target)
+
+    print(accuracy_score(test_target, random_forest.predict(test_data)))
+    print(confusion_matrix(test_target, random_forest.predict(test_data)))
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import tensorflow as tf
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import confusion_matrix, accuracy_score
+
+from keras.layers import Dropout
+
+#set seed for reproduction purpose
+from numpy.random import seed
+seed(1)
+
+import random as rn
+rn.seed(12345)
+
+import tensorflow as tf
+tf.random.set_seed(1234)
+
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.optimizers import SGD
+neural_model = Sequential([
+    Dense(8, input_shape=(3,), activation="relu"),
+    Dense(5, activation="relu"),
+    Dropout(0.1),
+    Dense(1, activation="sigmoid")
+])
 
 
+#show summary of a model
+neural_model.summary()
 
+neural_model.compile(SGD(lr = .003), "binary_crossentropy", metrics=["accuracy"])
+
+np.random.seed(0)
+run_hist = neural_model.fit(train_data, train_target, epochs=1000,
+                              validation_data=(test_data, test_target),
+                              verbose=True, shuffle=True)
+
+print("Training neural network...\n")
+
+print('Accuracy over training data is ',
+      accuracy_score(train_target, neural_model.predict_classes(train_data)))
+
+print('Accuracy over testing data is ',
+      accuracy_score(test_target, neural_model.predict_classes(test_data)))
+
+conf_matrix = confusion_matrix(test_target, neural_model.predict_classes(test_data))
+print(conf_matrix)
+
+plt.plot(run_hist.history["loss"], 'r', marker='.', label="Train Loss")
+plt.plot(run_hist.history["val_loss"], 'b', marker='.', label="Validation Loss")
+plt.title("Train loss and validation error")
+plt.legend()
+plt.xlabel('Epoch'), plt.ylabel('Error')
+plt.grid()
+plt.show()
