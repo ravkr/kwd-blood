@@ -1,0 +1,73 @@
+\documentclass[11pt, a4paper, notitlepage]{report}
+\usepackage[dvips]{graphicx,color,rotating}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{pstricks}
+\usepackage{lipsum}
+\usepackage{titling}
+\usepackage{appendix}
+
+\pretitle{
+	\begin{center} 
+		\includegraphics[width=40pt,height=40pt]{graphics/znak_pk} \\ 
+		 \Huge\bfseries}
+\posttitle{\par\end{center}\vskip 0.5em}
+\preauthor{\begin{center} \Large  KWD  \\  \LARGE\ttfamily}
+\postauthor{ \end{center}}
+\predate{\par\large\centering}
+\postdate{\par}
+
+\pagestyle{headings}
+
+\author{Jan \textsc{Kowalski}}
+
+\title{\textbf{Tytuł projektu \ldots}}
+\date{21.12.2019}
+
+\pagenumbering{roman} 
+
+\begin{document}
+\clearpage\maketitle
+\thispagestyle{empty}
+\begin{abstract}
+	\lipsum[3]
+\end{abstract}
+
+\clearpage \tableofcontents
+\thispagestyle{empty}
+
+\setcounter{page}{1}
+
+\chapter{Wprowadzenie}
+\pagenumbering{arabic}
+\lipsum[1]
+\\
+\lipsum[2]
+
+\section{Opis problemu}
+\lipsum[1-4]
+
+\chapter{Opis metody}
+\section{Wprowadzenie teoretyczne}
+\lipsum[1]
+
+\section{Badania symulacyjne}
+\lipsum[1]
+
+\chapter{Podsumowanie}
+\lipsum[2]
+
+
+\begin{appendices}
+\chapter{Kod programu}
+\begin{verbatim}
+import numpy as np
+
+a = np.array([1,2])
+b =  np.array([1,2])
+c =  a + b
+print(c) # printing results
+\end{verbatim}
+\end{appendices}
+
+\end{document}
