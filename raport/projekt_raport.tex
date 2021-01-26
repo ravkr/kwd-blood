@@ -6,6 +6,7 @@
 \usepackage{lipsum}
 \usepackage{titling}
 \usepackage{appendix}
+\usepackage{hyperref} 
 
 \pretitle{
 	\begin{center} 
@@ -19,10 +20,10 @@
 
 \pagestyle{headings}
 
-\author{Jan \textsc{Kowalski}}
+\author{Krzysztof \textsc{Michalski} \\ Rafał \textsc{Pokrywka} }
 
-\title{\textbf{Tytuł projektu \ldots}}
-\date{21.12.2019}
+\title{\textbf{Neuronowy model dawcy krwi}}
+\date{27.01.2020}
 
 \pagenumbering{roman} 
 
@@ -30,7 +31,9 @@
 \clearpage\maketitle
 \thispagestyle{empty}
 \begin{abstract}
-	\lipsum[3]
+	W tym projekcie zajmowaliśmy się przewidywaniem, czy pacjent odda krew w marcu 2007, na podstawie danych z \href{https://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center/}{Blood Transfusion Service Center Data Set}. 
+	Było to zatem zadanie klasyfikacji binarnej. Zastosowaliśmy kilka modeli - regresję liniową, regresję z użyciem drzew decyzyjnych i lasów losowych oraz w pełni połączoną sieć neuronową. Modele zostały poddane analizie skuteczności i na jej podstawie
+	najlepszy okazał się \ldots z dokładnością \ldots 
 \end{abstract}
 
 \clearpage \tableofcontents
@@ -52,7 +55,61 @@
 \lipsum[1]
 
 \section{Badania symulacyjne}
-\lipsum[1]
+Analiza zbioru danych w wersji niezrównoważonej:
+\begin{verbatim}
++----+-----------+-----------+-----------+------------+------------+
+|    |         R |         F |         M |          T |          D |
+|----+-----------+-----------+-----------+------------+------------|
+| R  |  1        | -0.182745 | -0.182745 |  0.160618  | -0.279869  |
+| F  | -0.182745 |  1        |  1        |  0.63494   |  0.218633  |
+| M  | -0.182745 |  1        |  1        |  0.63494   |  0.218633  |
+| T  |  0.160618 |  0.63494  |  0.63494  |  1         | -0.0358544 |
+| D  | -0.279869 |  0.218633 |  0.218633 | -0.0358544 |  1         |
++----+-----------+-----------+-----------+------------+------------+
+
++-------+-----------+-----------+----------+----------+------------+
+|       |         R |         F |        M |        T |          D |
+|-------+-----------+-----------+----------+----------+------------|
+| count | 748       | 748       |   748    | 748      | 748        |
+| mean  |   9.50668 |   5.51471 |  1378.68 |  34.2821 |   0.237968 |
+| std   |   8.0954  |   5.83931 |  1459.83 |  24.3767 |   0.426124 |
+| min   |   0       |   1       |   250    |   2      |   0        |
+| 25%   |   2.75    |   2       |   500    |  16      |   0        |
+| 50%   |   7       |   4       |  1000    |  28      |   0        |
+| 75%   |  14       |   7       |  1750    |  50      |   0        |
+| max   |  74       |  50       | 12500    |  98      |   1        |
++-------+-----------+-----------+----------+----------+------------+
+\end{verbatim}
+
+\includegraphics[width=400pt,height=400pt]{graphics/correlation_1} \\ 
+
+Analiza zbioru danych w wersji zrównoważonej:
+
+\begin{verbatim}
++----+------------+-----------+-----------+------------+------------+
+|    |          R |         F |         M |          T |          D |
+|----+------------+-----------+-----------+------------+------------|
+| R  |  1         | -0.218071 | -0.218071 |  0.0949278 | -0.348375  |
+| F  | -0.218071  |  1        |  1        |  0.685435  |  0.216987  |
+| M  | -0.218071  |  1        |  1        |  0.685435  |  0.216987  |
+| T  |  0.0949278 |  0.685435 |  0.685435 |  1         | -0.0152334 |
+| D  | -0.348375  |  0.216987 |  0.216987 | -0.0152334 |  1         |
++----+------------+-----------+-----------+------------+------------+
++-------+-----------+-----------+----------+----------+------------+
+|       |         R |         F |        M |        T |          D |
+|-------+-----------+-----------+----------+----------+------------|
+| count | 356       | 356       |   356    | 356      | 356        |
+| mean  |   7.95787 |   6.34551 |  1586.38 |  33.0815 |   0.5      |
+| std   |   7.19436 |   6.70222 |  1675.55 |  23.8207 |   0.500704 |
+| min   |   0       |   1       |   250    |   2      |   0        |
+| 25%   |   2       |   2       |   500    |  16      |   0        |
+| 50%   |   4       |   5       |  1250    |  28      |   0.5      |
+| 75%   |  13.25    |   8       |  2000    |  46      |   1        |
+| max   |  40       |  50       | 12500    |  98      |   1        |
++-------+-----------+-----------+----------+----------+------------+
+\end{verbatim}
+
+\includegraphics[width=400pt,height=400pt]{graphics/correlation_2} \\ 
 
 \chapter{Podsumowanie}
 \lipsum[2]
