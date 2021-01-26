@@ -43,12 +43,16 @@
 
 \chapter{Wprowadzenie}
 \pagenumbering{arabic}
-\lipsum[1]
-\\
-\lipsum[2]
-
+	Dane do projektu uzyskaliśmy ze strony \href{https://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center/}{Blood Transfusion Service Center Data Set}. Składały się one z dwóch plików {\it transfusion.data} i {\it transfusion.names}.\\ \\
+	W pliku  {\it transfusion.data} znajdowało się 748 przykładów opisanych 4 cechami - R (Recency - months since last donation), F (Frequency - total number of donation), M (Monetary - total blood donated in c.c.), T (Time - months since first donation) oraz
+	jedną etykietą - binary variable representing whether he/she donated blood in March 2007 (1 stand for donating blood; 0 stands for not donating blood). Zatem zadanie można zaliczyć do kategorii klasyfikacji binarnej. Klasy te były słabo zrównoważone - klasę 1
+	posiadało około 24\% przykładów, a klasę 0 - 76\%.\\ \\
+	W pliku {\it transfusion.names} znajdował się opis danych - źródło, opis atrybutów oraz autorzy.
 \section{Opis problemu}
-\lipsum[1-4]
+	Zadanie polega na klasyfikacji binarnej przykładów na podstawie 4 cech numerycznych. Celem klasyfikacji, jest określenie, czy nowy pacjent kliniki odda krew po pewnym okresie czasu. W tym celu można wykorzystać różne techniki uczenia maszynowego 
+	takie jak regresja liniowa, drzewa decyzycjne, lasy losowe czy sieci neuronowe. Ze względu na niewielką ilość przykładów oraz cech je opisujących, skuteczność takiej klasyfikacji może być niewielka - zbiory danych o takiej wielkości są niewystarczające 
+	dla dobrego wytrenowania na przykład sieci neuronowej. Ze względu na niezrównoważenie klas, modele mogą mieć tendencję do częstszego przewidywania dominującej klasy - bo zapewnia to dużą dokładność takiego modelu. Można spróbować zrównoważyć
+	zbiór wybierając podzbiór przykładów o takiej samej reprezentacji klasy pozytywnej i negatywnej.
 
 \chapter{Opis metody}
 \section{Wprowadzenie teoretyczne}
@@ -95,6 +99,7 @@ Analiza zbioru danych w wersji zrównoważonej:
 | T  |  0.0949278 |  0.685435 |  0.685435 |  1         | -0.0152334 |
 | D  | -0.348375  |  0.216987 |  0.216987 | -0.0152334 |  1         |
 +----+------------+-----------+-----------+------------+------------+
+
 +-------+-----------+-----------+----------+----------+------------+
 |       |         R |         F |        M |        T |          D |
 |-------+-----------+-----------+----------+----------+------------|
