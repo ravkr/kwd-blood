@@ -82,10 +82,13 @@
 	 \item Funkcji aktywacji - określających sposób modyfikacji reprezentacji danych przekazywanych pomiędzy warstwami. W przypadku klasyfikacji ostatnia warstwa stosuje funkcję softmax zwracającą prawdopodobieństwa przynależności danego przykładu do danej klasy.
 	\end{itemize}
 	Sieci neuronowe są trenowane z użyciem metody spadku wzdłuż gradientu prostego. Każdy krok takiej nauki określa się jako epokę danej sieci.
+
+\newpage
+
 \section{Badania symulacyjne}
 
 Na początku programu, w funkcji load\_and\_analyze\_data, wczytaliśmy zbiór danych i wyświetliliśmy informacje na jego temat.
-Żeby zapoznać się z rozkładem danych, sprawdzilismy czy i jakie są korelacje pomiędzy poszczególnymi kolumnami, oraz jakie są minimalne, średnie i maksymalne wartości.
+Żeby zapoznać się z rozkładem danych, sprawdzilismy czy i jakie są korelacje pomiędzy poszczególnymi kolumnami, oraz jakie są minimalne, średnie i maksymalne wartości. \\ \\
 
 Analiza zbioru danych w wersji niezrównoważonej:
 \begin{verbatim}
@@ -113,11 +116,12 @@ Analiza zbioru danych w wersji niezrównoważonej:
 +-------+-----------+-----------+----------+----------+------------+
 \end{verbatim}
 
-\includegraphics[width=400pt,height=400pt]{graphics/correlation_1} \\
+\includegraphics[width=350pt]{graphics/correlation_1} \\
 
 Ponieważ średnia wartość kolumny D (0 lub 1) jest równa 0.237968, to znaczy że tylko ~24\% wierszy ma jedynkę, czyli ilość przykładów dla klas jest niezrównoważona.
 Stworzyliśmy więc dodatkowy zbiór danych, który składa się z równej ilości przykładów dla każdej z klas.
 
+\newpage
 
 Analiza zbioru danych w wersji zrównoważonej:
 
@@ -146,7 +150,7 @@ Analiza zbioru danych w wersji zrównoważonej:
 +-------+-----------+-----------+----------+----------+------------+
 \end{verbatim}
 
-\includegraphics[width=400pt,height=400pt]{graphics/correlation_2} \\
+\includegraphics[width=350pt]{graphics/correlation_2} \\
 
 Ponieważ okazało się, że kolumny F i M są ze sobą idealnie skorelowane (F to liczba oddań krwi, a M to suma obiętości oddanej krwi), to możemy pozbyć się jednej z nich, a przewidywania programu nie ulegną zmianie.
 Następnie dane należało przeskalować, aby znajdowały się w jednym przedziale wartości, a ich średnia wynosiła zero.
@@ -180,6 +184,18 @@ Wszystkie powyższe operacje wykonujemy dla obu zbiorów danych (niezrównoważo
 
 \subsection{Dane niezrównoważone}
 
+\begin{verbatim}
++------------------------+------------+---------------+
+| Nazwa modelu           | Dokładność | Dokładność CV |
++------------------------+------------+---------------+
+| LogisticRegression     | 0.82666666 | 0.76233538191 |
+| DecisionTreeClassifier | 0.82666666 | 0.77712906057 |
+| RandomForestClassifier | 0.82666666 | 0.78151887620 |
+| NeuralNetwork          | 0.81277859 | 0.85333335399 |
++------------------------+------------+---------------+
+\end{verbatim}
+
+
 \begin{center}
 
 \includegraphics[width=330pt]{graphics/LogisticRegression_1}
@@ -192,7 +208,20 @@ Wszystkie powyższe operacje wykonujemy dla obu zbiorów danych (niezrównoważo
 
 \end{center}
 
+\newpage
+
 \subsection{Dane zrównoważone}
+
+\begin{verbatim}
++------------------------+------------+---------------+
+| Nazwa modelu           | Dokładność | Dokładność CV |
++------------------------+------------+---------------+
+| LogisticRegression     | 0.66666666 | 0.671875      |
+| DecisionTreeClassifier | 0.77777777 | 0.6625        |
+| RandomForestClassifier | 0.77777777 | 0.65625       |
+| NeuralNetwork          | 0.71249997 | 0.75          |
++------------------------+------------+---------------+
+\end{verbatim}
 
 \begin{center}
 
