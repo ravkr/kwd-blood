@@ -143,10 +143,7 @@ for path in paths:
         Dropout(0.1),
         Dense(1, activation="sigmoid")
     ])
-
-    # show summary of a model
     neural_model.summary()
-
     neural_model.compile(SGD(lr=.003), "binary_crossentropy", metrics=["accuracy"])
 
     np.random.seed(0)
@@ -155,12 +152,8 @@ for path in paths:
                                 verbose=True, shuffle=True)
 
     print("Training neural network...\n")
-
-    print('Accuracy over training data is ',
-          accuracy_score(train_target, neural_model.predict_classes(train_data)))
-
-    print('Accuracy over testing data is ',
-          accuracy_score(test_target, neural_model.predict_classes(test_data)))
+    print('Accuracy over training data is ', accuracy_score(train_target, neural_model.predict_classes(train_data)))
+    print('Accuracy over testing data is ', accuracy_score(test_target, neural_model.predict_classes(test_data)))
 
     conf_matrix = confusion_matrix(test_target, neural_model.predict_classes(test_data))
     print(conf_matrix)
@@ -176,46 +169,3 @@ for path in paths:
 
 
 print(tabulate(accu_tuples, floatfmt=".3f", tablefmt='psql'))
-
-# STARY KOD
-
-# Uczenie
-
-
-# logistic_regression = LogisticRegression(max_iter=100)
-# logistic_regression.fit(train_data, train_target)
-#
-# index = 9
-# prediction = logistic_regression.predict(test_data[index, :].reshape(1, -1))
-# print(f"Model predicted for \"{index}\" value {prediction}")
-# print(f"Real value for \"{index}\" is {test_target[index]}")
-#
-# # Sprawdzanie poprawności
-# acc = accuracy_score(test_target, logistic_regression.predict(test_data))
-# print("Model accuracy is {0:0.2f}".format(acc))
-#
-# conf_matrix = confusion_matrix(test_target, logistic_regression.predict(test_data))
-# print(conf_matrix)
-#
-# cv_results = cross_validate(logistic_regression, train_data, train_target, scoring=('accuracy'), cv=10)
-# accuracy = cv_results['test_score'].mean()
-# print("Model accuracy via cross-validation is {0:0.2f}".format(accuracy))
-#
-#
-#
-# for depth in range(1, 10):
-#     decision_tree = DecisionTreeClassifier(criterion='entropy', max_depth=depth, random_state=0)
-#     decision_tree.fit(train_data, train_target)
-#
-#     print(f"depth = {depth}")
-#
-#     print(accuracy_score(test_target, decision_tree.predict(test_data)))
-#     print(confusion_matrix(test_target, decision_tree.predict(test_data)))
-#
-#
-#
-#     random_forest = RandomForestClassifier(max_depth=depth, criterion='entropy', random_state=0)
-#     random_forest.fit(train_data, train_target)
-#
-#     print(accuracy_score(test_target, random_forest.predict(test_data)))
-#     print(confusion_matrix(test_target, random_forest.predict(test_data)))
