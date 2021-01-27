@@ -22,7 +22,7 @@ PATH_ORIGINAL = 'data/transfusion.data'
 PATH_MODIFIED = 'data/transfusion2.data'
 
 paths = [PATH_ORIGINAL, PATH_MODIFIED]
-
+accu_tuples = [('Nazwa modelu', 'Dokładność', 'Dokładność CV')]
 
 def load_and_analyze_data(path, verbose=False):
     # Wczytywanie danych
@@ -130,6 +130,9 @@ for path in paths:
         plt.grid()
         plt.show()
 
+        # print(f"Max for {key}; acc={np.max(accuracy)}; cv_acc={np.max(cv_accuracy)}")
+        accu_tuples.append((key, np.max(accuracy), np.max(cv_accuracy)))
+
     seed(1)
     rn.seed(12345)
     tf.random.set_seed(1234)
@@ -169,6 +172,10 @@ for path in paths:
     plt.xlabel('Epoch'), plt.ylabel('Error')
     plt.grid()
     plt.show()
+    accu_tuples.append(("NeuralNetwork", np.max(run_hist.history["accuracy"]), np.max(run_hist.history["val_accuracy"])))
+
+
+print(tabulate(accu_tuples, floatfmt=".3f", tablefmt='psql'))
 
 # STARY KOD
 
