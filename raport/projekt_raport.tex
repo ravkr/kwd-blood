@@ -44,8 +44,13 @@
 \chapter{Wprowadzenie}
 \pagenumbering{arabic}
 	Dane do projektu uzyskaliśmy ze strony \href{https://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center/}{Blood Transfusion Service Center Data Set}. Składały się one z dwóch plików {\it transfusion.data} i {\it transfusion.names}.\\ \\
-	W pliku  {\it transfusion.data} znajdowało się 748 przykładów opisanych 4 cechami - R (Recency - months since last donation), F (Frequency - total number of donation), M (Monetary - total blood donated in c.c.), T (Time - months since first donation) oraz
-	jedną etykietą - binary variable representing whether he/she donated blood in March 2007 (1 stand for donating blood; 0 stands for not donating blood). Zatem zadanie można zaliczyć do kategorii klasyfikacji binarnej. Klasy te były słabo zrównoważone - klasę 1
+	W pliku  {\it transfusion.data} znajdowało się 748 przykładów opisanych 4 cechami:
+	\begin{itemize}
+	  \item R (Recency - months since last donation)
+	  \item F (Frequency - total number of donation)
+	  \item M (Monetary - total blood donated in c.c.)
+	 \item T (Time - months since first donation)
+	\end{itemize} oraz jedną etykietą - binary variable representing whether he/she donated blood in March 2007 (1 stand for donating blood; 0 stands for not donating blood). Zatem zadanie można zaliczyć do kategorii klasyfikacji binarnej. Klasy te były słabo zrównoważone - klasę 1
 	posiadało około 24\% przykładów, a klasę 0 - 76\%.\\ \\
 	W pliku {\it transfusion.names} znajdował się opis danych - źródło, opis atrybutów oraz autorzy.
 \section{Opis problemu}
@@ -56,8 +61,27 @@
 
 \chapter{Opis metody}
 \section{Wprowadzenie teoretyczne}
-\lipsum[1]
-
+	W celu rozwiązania zadania wykorzystaliśmy kilka metod uczenia maszynowego: \\ \\
+	{\bf Regresję logistyczną} - czyli metodę służącą do klasyfikacji binarnej, pozwalającą określić prawdopodobieństo przynależności przykładu do jednej z dwóch klas. Jeżeli prawdopodobieństwo to przekracza 50\% oznacza to, że model przewiduje, że dany przykład należy
+	do tej klasy. Do nauki regregresora logistycznego wykorzystywana jest:
+	\begin{itemize}
+	  \item Logarytmiczna funkcja straty, która wykonuje nieliniową transformacje wyjściowych wartości na przedział od 0 do 1, tak, żeby suma wartości obu klas wynosiła 1. 
+	  \item Metoda spadku wzdłuż gradientu prostego - pozwalająca zbliżać się do minumum globalnego powyższej funkcji straty.
+	  \item Funkcję logistyczną - pozwalającą określić wartość prawdopodobieństwa dla każdej klasy.
+	 \end{itemize} 
+	{\bf Drzewa decyzyjne} - czyli wszechstronny algorytm uczenia maszynowego, który można wykorzystywać do różnych zadań - zarówno klasyfikacji (binarnej i wieloklasowej) jak i do zadań regresji. Podejście tego modelu do klasyfikacji binarnej polega na
+	 dzieleniu każdej z cech danych na dwa zbiory w sposób liniowy - tak, żeby zbiory te były jak najlepiej rozdzielone. Oznacza to, że w podzbiorach przykładów po każdej ze stron tej tak zwanej granicy decyzyjnej, znadowało się jak najwięcej przykładów należących do jednej klasy - 
+	 podzbiory te powinien być jak najmniej zanieczyszczone przykładami należącymi do drugiej grupy. Wysokość takiego drzewa określa ile takich liniowych podziałów cech przykładu może wykonać model. \\ \\
+	{\bf Lasy losowe} - jest to jedna z metod uczenia zespołowego. Polega ona na wytrenowaniu pewnej ilości drzew decyzyjnych, a następnie zastosowaniu jednej z technik głosowania drzew w celu określenia rezultatu. Głosowanie można przeprowadzać na przykład w sposób
+	 większościowy - w takim przypadku, każdy model określa, do której klasy według niego należy dany przykład - klasa określana przez zespół to ta, na którą głosowało najwięcej modeli. \\ \\
+	{\bf Sieci neuronowe} - czyli algorytm wielokrotnej zmiany reprezentacji cech określających przykłady, w celu znalezienia reprezentacji pozwalającej - w przypadku klasyfikacji - w jak największym stopniu rozdzielić od siebie przykłady należące do różnych klas. Sieci składają się z:
+	\begin{itemize}
+	  \item Neuronów - które są elementami wykonującymi liniową transformację danych otrzymywanych na wejściu - sumę ważoną wejść wraz z tak zwanym członem obciążenia, niezależnym od wartości wejść.
+	  \item Warstw - które są złożone z neuronów. Neurony w ramach jednej warstwy nie są ze sobą połączone.
+	  \item Połączeń pomiedzy warstwami - czyli połączeniem danych wejściowych do neuronów pierwszej warstwy, a następnie wyjść neuronów jednej warstwy z wejściami neuronów kolejnej wastwy.
+	 \item Funkcji aktywacji - określających sposób modyfikacji reprezentacji danych przekazywanych pomiędzy warstwami. W przypadku klasyfikacji ostatnia warstwa stosuje funkcję softmax zwracającą prawdopodobieństwa przynależności danego przykładu do danej klasy.
+	\end{itemize}
+	Sieci neuronowe są trenowane z użyciem metody spadku wzdłuż gradientu prostego. Każdy krok takiej nauki określa się jako epokę danej sieci.
 \section{Badania symulacyjne}
 Analiza zbioru danych w wersji niezrównoważonej:
 \begin{verbatim}
