@@ -6,11 +6,11 @@
 \usepackage{lipsum}
 \usepackage{titling}
 \usepackage{appendix}
-\usepackage{hyperref} 
+\usepackage{hyperref}
 
 \pretitle{
-	\begin{center} 
-		\includegraphics[width=40pt,height=40pt]{graphics/znak_pk} \\ 
+	\begin{center}
+		\includegraphics[width=40pt,height=40pt]{graphics/znak_pk} \\
 		 \Huge\bfseries}
 \posttitle{\par\end{center}\vskip 0.5em}
 \preauthor{\begin{center} \Large  KWD  \\  \LARGE\ttfamily}
@@ -25,15 +25,15 @@
 \title{\textbf{Neuronowy model dawcy krwi}}
 \date{27.01.2020}
 
-\pagenumbering{roman} 
+\pagenumbering{roman}
 
 \begin{document}
 \clearpage\maketitle
 \thispagestyle{empty}
 \begin{abstract}
-	W tym projekcie zajmowaliśmy się przewidywaniem, czy pacjent odda krew w marcu 2007, na podstawie danych z \href{https://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center/}{Blood Transfusion Service Center Data Set}. 
+	W tym projekcie zajmowaliśmy się przewidywaniem, czy pacjent odda krew w marcu 2007, na podstawie danych z \href{https://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center/}{Blood Transfusion Service Center Data Set}.
 	Było to zatem zadanie klasyfikacji binarnej. Zastosowaliśmy kilka modeli - regresję liniową, regresję z użyciem drzew decyzyjnych i lasów losowych oraz w pełni połączoną sieć neuronową. Modele zostały poddane analizie skuteczności i na jej podstawie
-	najlepszy okazał się \ldots z dokładnością \ldots 
+	najlepszy okazał się \ldots z dokładnością \ldots
 \end{abstract}
 
 \clearpage \tableofcontents
@@ -54,8 +54,8 @@
 	posiadało około 24\% przykładów, a klasę 0 - 76\%.\\ \\
 	W pliku {\it transfusion.names} znajdował się opis danych - źródło, opis atrybutów oraz autorzy.
 \section{Opis problemu}
-	Zadanie polega na klasyfikacji binarnej przykładów na podstawie 4 cech numerycznych. Celem klasyfikacji, jest określenie, czy nowy pacjent kliniki odda krew po pewnym okresie czasu. W tym celu można wykorzystać różne techniki uczenia maszynowego 
-	takie jak regresja liniowa, drzewa decyzycjne, lasy losowe czy sieci neuronowe. Ze względu na niewielką ilość przykładów oraz cech je opisujących, skuteczność takiej klasyfikacji może być niewielka - zbiory danych o takiej wielkości są niewystarczające 
+	Zadanie polega na klasyfikacji binarnej przykładów na podstawie 4 cech numerycznych. Celem klasyfikacji, jest określenie, czy nowy pacjent kliniki odda krew po pewnym okresie czasu. W tym celu można wykorzystać różne techniki uczenia maszynowego
+	takie jak regresja liniowa, drzewa decyzycjne, lasy losowe czy sieci neuronowe. Ze względu na niewielką ilość przykładów oraz cech je opisujących, skuteczność takiej klasyfikacji może być niewielka - zbiory danych o takiej wielkości są niewystarczające
 	dla dobrego wytrenowania na przykład sieci neuronowej. Ze względu na niezrównoważenie klas, modele mogą mieć tendencję do częstszego przewidywania dominującej klasy - bo zapewnia to dużą dokładność takiego modelu. Można spróbować zrównoważyć
 	zbiór wybierając podzbiór przykładów o takiej samej reprezentacji klasy pozytywnej i negatywnej.
 
@@ -83,6 +83,10 @@
 	\end{itemize}
 	Sieci neuronowe są trenowane z użyciem metody spadku wzdłuż gradientu prostego. Każdy krok takiej nauki określa się jako epokę danej sieci.
 \section{Badania symulacyjne}
+
+Na początku programu, w funkcji load_and_analyze_data, wczytaliśmy zbiór danych i wyświetliliśmy informacje na jego temat.
+Żeby zapoznać się z rozkładem danych, sprawdzilismy czy i jakie są korelacje pomiędzy poszczególnymi kolumnami, oraz jakie są minimalne, średnie i maksymalne wartości.
+
 Analiza zbioru danych w wersji niezrównoważonej:
 \begin{verbatim}
 +----+-----------+-----------+-----------+------------+------------+
@@ -109,7 +113,10 @@ Analiza zbioru danych w wersji niezrównoważonej:
 +-------+-----------+-----------+----------+----------+------------+
 \end{verbatim}
 
-\includegraphics[width=400pt,height=400pt]{graphics/correlation_1} \\ 
+\includegraphics[width=400pt,height=400pt]{graphics/correlation_1} \\
+
+Ponieważ średnia wartość kolumny D (0 lub 1) jest równa 0.237968, to znaczy że tylko ~24\% wierszy ma jedynkę, czyli ilość przykładów dla klas jest niezrównoważona.
+Stworzyliśmy więc dodatkowy zbiór danych, który składa się z równej ilości przykładów dla każdej z klas.
 
 Analiza zbioru danych w wersji zrównoważonej:
 
@@ -138,7 +145,20 @@ Analiza zbioru danych w wersji zrównoważonej:
 +-------+-----------+-----------+----------+----------+------------+
 \end{verbatim}
 
-\includegraphics[width=400pt,height=400pt]{graphics/correlation_2} \\ 
+\includegraphics[width=400pt,height=400pt]{graphics/correlation_2} \\
+
+Ponieważ okazało się, że kolumny F i M są ze sobą idealnie skorelowane (F to liczba oddań krwi, a M to suma obiętości oddanej krwi), to możemy pozbyć się jednej z nich, a przewidywania programu nie ulegną zmianie.
+Następnie dane należało przeskalować, aby znajdowały się w jednym przedziale wartości, a ich średnia wynosiła zero.
+Dzięki temu każda cecha będzie traktowana w równy sposób przez algorytmy uczące.
+
+
+Gdy dane są już odpowiednio przygotowane, można je podzielić na dwa zbiory: trenujący i testujący.
+W naszym programie 90\% to będą dane trenujące, a 10\% testujące.
+
+W celu porównania różnych klasyfikatorów, sprawdzamy w pętli wszystkie podane modele (LogisticRegression, DecisionTreeClassifier, RandomForestClassifier).
+Po wyuczeniu każdego z modeli, wypisujemy na wyjście podstawowe informacje o nim (np. dokładność, macierz konfuzji, wykres, ...), oraz .... [KRZYSIEK? POMOCY?].
+
+
 
 \chapter{Podsumowanie}
 \lipsum[2]
