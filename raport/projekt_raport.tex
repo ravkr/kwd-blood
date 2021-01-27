@@ -156,9 +156,24 @@ Gdy dane są już odpowiednio przygotowane, można je podzielić na dwa zbiory: 
 W naszym programie 90\% to będą dane trenujące, a 10\% testujące.
 
 W celu porównania różnych klasyfikatorów, sprawdzamy w pętli wszystkie podane modele (LogisticRegression, DecisionTreeClassifier, RandomForestClassifier).
+Wszystkie te klasyfikatory uczymy z różnymi metaparametrami, np. głębokością drzewa, ilością powtórzeń itp.
 Po wyuczeniu każdego z modeli, wypisujemy na wyjście podstawowe informacje o nim (np. dokładność, macierz konfuzji, wykres, ...), oraz .... [KRZYSIEK? POMOCY?].
 
+Później sprawdzamy również jak z tym problemem poradzi sobie sieć neuronowa.
+Tworzymy sieć neuronową składającą się z 3 warstw gęstych, mających kolejno 8, 5 i 1 neuronów.
+Pierwsze dwie warstwy mają aktywację relu, a ostatnia sigmoid.
+Dodatkowo środkowa warstwa ma ustawiony dropout na 10\% - w celu ograniczenia ryzyka przeuczenia sieci.
+Metaparametr learning rate ustawiamy na 0.003 - im mniejsza wartość, tym dokładniejsze rozwiązanie można znaleźć, ale jest również ryzyko utknięcia w minimum lokalnym.
 
+Tak utworzoną sieć, zaczynamy uczyć na danych trenujących, z 1000 epok, oraz podając na których danych mają odbywać się testy.
+Ponieważ niektóre algorytmy najlepiej się uczą gdy w każdej epoce dane są podawane w innej kolejnści, to ustawiamy również parametr shuffle=True.
+
+Po zakończonym trenowaniu, wypisujemy informacje o efektach:
+- jaka jest dokładność przewidywań na zbiorze treningowym, oraz na zbiorze testującym
+- jak wygląda macierz konfuzji - żeby zobaczyć jakiego rodzaju błędy najczęściej zostały popełnione (false positives, false negatives)
+oraz rysujemy wykresy dokładności w zależności od liczby epok uczenia.
+
+Wszystkie powyższe operacje wykonujemy dla obu zbiorów danych (niezrównoważonego i zrównoważonego).
 
 \chapter{Podsumowanie}
 \lipsum[2]
