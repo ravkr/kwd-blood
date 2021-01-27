@@ -84,7 +84,7 @@
 	Sieci neuronowe są trenowane z użyciem metody spadku wzdłuż gradientu prostego. Każdy krok takiej nauki określa się jako epokę danej sieci.
 \section{Badania symulacyjne}
 
-Na początku programu, w funkcji load_and_analyze_data, wczytaliśmy zbiór danych i wyświetliliśmy informacje na jego temat.
+Na początku programu, w funkcji load\_and\_analyze\_data, wczytaliśmy zbiór danych i wyświetliliśmy informacje na jego temat.
 Żeby zapoznać się z rozkładem danych, sprawdzilismy czy i jakie są korelacje pomiędzy poszczególnymi kolumnami, oraz jakie są minimalne, średnie i maksymalne wartości.
 
 Analiza zbioru danych w wersji niezrównoważonej:
@@ -117,6 +117,7 @@ Analiza zbioru danych w wersji niezrównoważonej:
 
 Ponieważ średnia wartość kolumny D (0 lub 1) jest równa 0.237968, to znaczy że tylko ~24\% wierszy ma jedynkę, czyli ilość przykładów dla klas jest niezrównoważona.
 Stworzyliśmy więc dodatkowy zbiór danych, który składa się z równej ilości przykładów dla każdej z klas.
+
 
 Analiza zbioru danych w wersji zrównoważonej:
 
@@ -157,7 +158,7 @@ W naszym programie 90\% to będą dane trenujące, a 10\% testujące.
 
 W celu porównania różnych klasyfikatorów, sprawdzamy w pętli wszystkie podane modele (LogisticRegression, DecisionTreeClassifier, RandomForestClassifier).
 Wszystkie te klasyfikatory uczymy z różnymi metaparametrami, np. głębokością drzewa, ilością powtórzeń itp.
-Po wyuczeniu każdego z modeli, wypisujemy na wyjście podstawowe informacje o nim (np. dokładność, macierz konfuzji, wykres, ...), oraz .... [KRZYSIEK? POMOCY?].
+Po wyuczeniu każdego z modeli, wypisujemy na wyjście podstawowe informacje o nim (np. dokładność, macierz konfuzji, ...) oraz wykres zależności dokładności od różnych parametrów danego modelu.
 
 Później sprawdzamy również jak z tym problemem poradzi sobie sieć neuronowa.
 Tworzymy sieć neuronową składającą się z 3 warstw gęstych, mających kolejno 8, 5 i 1 neuronów.
@@ -174,6 +175,36 @@ Po zakończonym trenowaniu, wypisujemy informacje o efektach:
 oraz rysujemy wykresy dokładności w zależności od liczby epok uczenia.
 
 Wszystkie powyższe operacje wykonujemy dla obu zbiorów danych (niezrównoważonego i zrównoważonego).
+
+\section{Wyniki symulacji dla różnych modeli}
+
+\subsection{Dane niezrównoważone}
+
+\begin{center}
+
+\includegraphics[width=330pt]{graphics/LogisticRegression_1}
+
+\includegraphics[width=330pt]{graphics/DecisionTreeClassifier_1}
+
+\includegraphics[width=330pt]{graphics/RandomForestClassifier_1}
+
+\includegraphics[width=330pt]{graphics/NeuralNetwork_1}
+
+\end{center}
+
+\subsection{Dane zrównoważone}
+
+\begin{center}
+
+\includegraphics[width=330pt]{graphics/LogisticRegression_2}
+
+\includegraphics[width=330pt]{graphics/DecisionTreeClassifier_2}
+
+\includegraphics[width=330pt]{graphics/RandomForestClassifier_2}
+
+\includegraphics[width=330pt]{graphics/NeuralNetwork_2}
+
+\end{center}
 
 \chapter{Podsumowanie}
 \lipsum[2]
